@@ -43,3 +43,17 @@
 .accent {
     color: #64b5b5;
 }
+
+.day-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+.day-table {
+
+}
+
+.time-container {
+
+}
