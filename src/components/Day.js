@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles.css';
 
-function Day(props) {
+export function Day(props) {
     const [checkboxValues, setCheckboxValues] =
         useState({"BREAKFAST": false, "LUNCH": false, "DINNER": false});
 
@@ -29,7 +29,7 @@ function Day(props) {
 function TimeRow(props) {
     return (<tr className={"time-container"}>
         <td><label>{props.time}</label></td>
-        <td>
+        <td className={"checkbox-container"}>
             <input checked={props.values[props.time]} type="checkbox"
                    onChange={(e)=>{
                         let newState = {...props.values};
@@ -40,4 +40,15 @@ function TimeRow(props) {
     </tr>);
 }
 
-export default Day;
+export function Notes() {
+    return <div className={"day-container"}>
+        <table className={"day-table"}>
+            <thead>
+            <tr><th colSpan="2">Notes</th></tr>
+            </thead>
+            <tbody>
+            <tr><td><textarea className={"notes-textarea"}/></td></tr>
+            </tbody>
+        </table>
+    </div>
+}
