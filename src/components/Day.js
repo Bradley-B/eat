@@ -15,22 +15,28 @@ function Day(props) {
                 </tr>
             </thead>
             <tbody>
-                <TimeRow callback={setCheckboxValues} values={checkboxValues} time={"BREAKFAST"}/>
-                <TimeRow callback={setCheckboxValues} values={checkboxValues} time={"LUNCH"}/>
-                <TimeRow callback={setCheckboxValues} values={checkboxValues} time={"DINNER"}/>
+                <TimeRow callback={setCheckboxValues}
+                         values={checkboxValues} time={"BREAKFAST"}/>
+                <TimeRow callback={setCheckboxValues}
+                         values={checkboxValues} time={"LUNCH"}/>
+                <TimeRow callback={setCheckboxValues}
+                         values={checkboxValues} time={"DINNER"}/>
             </tbody>
         </table>
     </div>);
 }
 
 function TimeRow(props) {
-    return (<tr>
-        <td><label className={"time-container"}>{props.time}</label></td>
-        <td><input checked={props.values[props.time]} type="checkbox" onChange={(e)=>{
-                let newState = {...props.values};
-                newState[props.time] = e.target.checked;
-                props.callback(newState);
-        }}/></td>
+    return (<tr className={"time-container"}>
+        <td><label>{props.time}</label></td>
+        <td>
+            <input checked={props.values[props.time]} type="checkbox"
+                   onChange={(e)=>{
+                        let newState = {...props.values};
+                        newState[props.time] = e.target.checked;
+                        props.callback(newState);
+            }}/>
+        </td>
     </tr>);
 }
 

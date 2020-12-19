@@ -40,20 +40,26 @@
     border: 2px #6292fb solid;
 }
 
-.accent {
-    color: #64b5b5;
-}
-
 .day-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center
+
 }
 
 .day-table {
-
+    display: table;
 }
 
-.time-container {
+.day-table thead {
+    background-color: #64b5b5;
+    color: white;
+}
 
+.day-table thead tr th {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.5rem 4rem 1.5rem 0.5rem;
+}
+
+.time-container input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
 }
