@@ -17,8 +17,8 @@ export default class Landing extends React.Component {
             <h1>Who you be?</h1>
             <br/>
             <form className="landing-form">
-                <input onClick={this.handleSubmit} value="Thing 1" type="button"/>
-                <input onClick={this.handleSubmit} value="Thing 2" type="button"/>
+                <input onClick={this.handleSubmit} value="Thing One" type="button"/>
+                <input onClick={this.handleSubmit} value="Thing Two" type="button"/>
             </form>
         </div>;
     }
