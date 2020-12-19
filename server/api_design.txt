@@ -1,0 +1,27 @@
+GET /api/get/:person/
+	returns current week for :person
+	format = {
+		"results": {
+			"notes": str
+			"monday": {
+				"breakfast": bool
+				"lunch": bool
+				"dinner": bool	
+			}
+			... repeat for rest of the days of the week
+		}
+	}
+
+PUT /api/update/days/:person/
+	request body = {
+		`${weekday}`: {
+			"breakfast": bool or
+			"lunch": bool or
+			"dinner": bool
+		}
+	}
+
+PUT /api/update/notes/:person/
+	request body = {
+		"notes": str
+	}
