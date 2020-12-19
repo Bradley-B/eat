@@ -1,15 +1,13 @@
 GET /api/get/:person/
 	returns current week for :person
 	format = {
-		"results": {
-			"notes": str
-			"monday": {
-				"breakfast": bool
-				"lunch": bool
-				"dinner": bool	
-			}
-			... repeat for rest of the days of the week
+		"notes": str
+		"monday": {
+			"breakfast": bool
+			"lunch": bool
+			"dinner": bool	
 		}
+		... repeat for rest of the days of the week
 	}
 
 PUT /api/update/days/:person/
