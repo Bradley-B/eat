@@ -9,7 +9,7 @@ export default class Landing extends React.Component {
     }
 
     handleSubmit(event) {
-        this.props.callback(event.target.value);
+        this.props.callback(event.target.name);
     }
 
     render() {
@@ -17,8 +17,8 @@ export default class Landing extends React.Component {
             <h1>Who you be?</h1>
             <br/>
             <form className="landing-form">
-                <input onClick={this.handleSubmit} value="Thing One" type="button"/>
-                <input onClick={this.handleSubmit} value="Thing Two" type="button"/>
+                <input onClick={this.handleSubmit} name="thing1" value="Thing One" type="button"/>
+                <input onClick={this.handleSubmit} name="thing2" value="Thing Two" type="button"/>
             </form>
         </div>;
     }

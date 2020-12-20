@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
 import '../styles.css';
 
+const capitalize = (s) => {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
 export function Day(props) {
     const [checkboxValues, setCheckboxValues] =
-        useState({"BREAKFAST": false, "LUNCH": false, "DINNER": false});
+        useState({"breakfast": false, "lunch": false, "dinner": false});
 
     return (<div className={"day-container"}>
         <table className={"day-table"}>
             <thead>
                 <tr>
                     <th colSpan="2">
-                        {props.day}
+                        {capitalize(props.day)}
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <TimeRow callback={setCheckboxValues}
-                         values={checkboxValues} time={"BREAKFAST"}/>
+                         values={checkboxValues} time={"breakfast"}/>
                 <TimeRow callback={setCheckboxValues}
-                         values={checkboxValues} time={"LUNCH"}/>
+                         values={checkboxValues} time={"lunch"}/>
                 <TimeRow callback={setCheckboxValues}
-                         values={checkboxValues} time={"DINNER"}/>
+                         values={checkboxValues} time={"dinner"}/>
             </tbody>
         </table>
     </div>);
@@ -28,7 +32,7 @@ export function Day(props) {
 
 function TimeRow(props) {
     return (<tr className={"time-container"}>
-        <td><label>{props.time}</label></td>
+        <td><label>{props.time.toUpperCase()}</label></td>
         <td className={"checkbox-container"}>
             <input checked={props.values[props.time]} type="checkbox"
                    onChange={(e)=>{
