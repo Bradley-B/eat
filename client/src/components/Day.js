@@ -38,16 +38,3 @@ function TimeRow(props) {
         </td>
     </tr>);
 }
-
-export function Notes() {
-    return <div className={"day-container"}>
-        <table className={"day-table"}>
-            <thead>
-            <tr><th colSpan="2">Notes</th></tr>
-            </thead>
-            <tbody>
-            <tr><td><textarea className={"notes-textarea"}/></td></tr>
-            </tbody>
-        </table>
-    </div>
-}

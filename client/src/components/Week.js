@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles.css';
-import {Day, Notes} from "./Day";
+import { Day } from "./Day";
 
 const defaults = {
     "notes": "",
@@ -18,6 +18,7 @@ export default class Week extends React.Component {
         super(props);
         this.state = {values: defaults};
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleNotesChange = this.handleNotesChange.bind(this);
     }
 
     componentDidMount() {
@@ -30,8 +31,13 @@ export default class Week extends React.Component {
         });
     }
 
+    handleNotesChange(e) {
+        let state = this.state.values;
+        state.notes = e.target.value;
+        this.setState({values: state});
+    }
+
     handleCheckboxChange(day, time, isChecked) {
-        console.log(day, time, isChecked);
         let state = this.state.values;
         state[day][time] = isChecked;
         this.setState({values: state});
@@ -46,7 +52,20 @@ export default class Week extends React.Component {
             <Day c={this.handleCheckboxChange} values={this.state.values.thursday} day={"thursday"}/>
             <Day c={this.handleCheckboxChange} values={this.state.values.friday} day={"friday"}/>
             <Day c={this.handleCheckboxChange} values={this.state.values.saturday} day={"saturday"}/>
-            <Notes />
+            <Notes c={this.handleNotesChange} text={this.state.values.notes}/>
         </div>;
     }
+}
+
+export function Notes(props) {
+    return <div className={"day-container"}>
+        <table className={"day-table"}>
+            <thead>
+            <tr><th colSpan="2">Notes</th></tr>
+            </thead>
+            <tbody>
+            <tr><td><textarea onChange={props.c} className={"notes-textarea"} value={props.text}/></td></tr>
+            </tbody>
+        </table>
+    </div>
 }
