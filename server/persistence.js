@@ -5,7 +5,7 @@ const dayObject = {
     "lunch": false,
     "dinner": false
 };
-const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 let defaults = {
     "notes": ""

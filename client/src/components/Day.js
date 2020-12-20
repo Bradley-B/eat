@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles.css';
 
 const capitalize = (s) => {
@@ -6,9 +6,6 @@ const capitalize = (s) => {
 };
 
 export function Day(props) {
-    const [checkboxValues, setCheckboxValues] =
-        useState({"breakfast": false, "lunch": false, "dinner": false});
-
     return (<div className={"day-container"}>
         <table className={"day-table"}>
             <thead>
@@ -19,12 +16,12 @@ export function Day(props) {
                 </tr>
             </thead>
             <tbody>
-                <TimeRow callback={setCheckboxValues}
-                         values={checkboxValues} time={"breakfast"}/>
-                <TimeRow callback={setCheckboxValues}
-                         values={checkboxValues} time={"lunch"}/>
-                <TimeRow callback={setCheckboxValues}
-                         values={checkboxValues} time={"dinner"}/>
+                <TimeRow day={props.day} callback={props.c}
+                         value={props.values.breakfast} time={"breakfast"}/>
+                <TimeRow day={props.day} callback={props.c}
+                         value={props.values.lunch} time={"lunch"}/>
+                <TimeRow day={props.day} callback={props.c}
+                         value={props.values.dinner} time={"dinner"}/>
             </tbody>
         </table>
     </div>);
@@ -34,11 +31,9 @@ function TimeRow(props) {
     return (<tr className={"time-container"}>
         <td><label>{props.time.toUpperCase()}</label></td>
         <td className={"checkbox-container"}>
-            <input checked={props.values[props.time]} type="checkbox"
+            <input checked={props.value} type="checkbox"
                    onChange={(e)=>{
-                        let newState = {...props.values};
-                        newState[props.time] = e.target.checked;
-                        props.callback(newState);
+                        props.callback(props.day, props.time, e.target.checked);
             }}/>
         </td>
     </tr>);
