@@ -20,6 +20,7 @@ export default class Landing extends React.Component {
                 <input onClick={this.handleSubmit} name="thing1" value="Thing One" type="button"/>
                 <input onClick={this.handleSubmit} name="thing2" value="Thing Two" type="button"/>
             </form>
+            <br/>
         </div>;
     }
 }

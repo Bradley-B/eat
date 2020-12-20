@@ -94,3 +94,27 @@ body {
     font-size: 18px;
     margin-top: 10px;
 }
+
+.notes-save-btn-cell {
+    width: 25%;
+}
+
+.notes-save-btn {
+    width: calc(100% - 30px);
+    height: calc(100% - 10px);
+    margin: 10px 15px 5px 15px;
+    background-color: transparent;
+    color: white;
+    border: 2px #64b5b5 solid;
+    border-radius: 10px;
+}
+
+.notes-save-btn:hover {
+    cursor: pointer;
+    background: linear-gradient(90deg, rgba(0,0,0,0) 5%, rgb(100, 181, 181) 100%);
+}
+
+.notes-save-btn:focus {
+    outline: 0;
+    border: 2px #6292fb solid;
+}

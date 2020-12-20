@@ -16,9 +16,10 @@ const defaults = {
 export default class Week extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {values: defaults};
+        this.state = {values: defaults, notesEnabled: true};
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
+        this.saveNotes = this.saveNotes.bind(this);
     }
 
     componentDidMount() {
@@ -28,6 +29,11 @@ export default class Week extends React.Component {
             return res.json();
         }).then((res)=>{
             this.setState({values: res});
+        }).catch((err) => {
+            console.error(err);
+            let errState = defaults;
+            errState.notes = "Failed to load. Sorry! Try again later.";
+            this.setState({values: errState});
         });
     }
 
@@ -42,19 +48,29 @@ export default class Week extends React.Component {
             return;
         }
 
-        fetch(`/api/update/${type}/${this.props.username}`, {
+        return fetch(`/api/update/${type}/${this.props.username}`, {
             method: 'PUT',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify(objectToSave)
+        }).catch((err)=>{
+            console.error(err);
+            alert("failed to save");
         });
     }
 
     handleNotesChange(e) {
         let state = this.state.values;
         state.notes = e.target.value;
-        this.setState({values: state}, ()=>{
-            this.save('notes');
+        this.setState({values: state});
+    }
+
+    saveNotes() {
+        this.setState({notesEnabled: false}, ()=>{
+            this.save('notes').then(()=>{
+                this.setState({notesEnabled: true});
+            });
         });
+
     }
 
     handleCheckboxChange(day, time, isChecked) {
@@ -74,19 +90,29 @@ export default class Week extends React.Component {
             <Day c={this.handleCheckboxChange} values={this.state.values.thursday} day={"thursday"}/>
             <Day c={this.handleCheckboxChange} values={this.state.values.friday} day={"friday"}/>
             <Day c={this.handleCheckboxChange} values={this.state.values.saturday} day={"saturday"}/>
-            <Notes c={this.handleNotesChange} text={this.state.values.notes}/>
+            <Notes enabled={this.state.notesEnabled} s={this.saveNotes}
+                   c={this.handleNotesChange} text={this.state.values.notes}/>
         </div>;
     }
 }
 
 export function Notes(props) {
+    const notesText = props.enabled ? props.text : "saving... please wait";
+
     return <div className={"day-container"}>
         <table className={"day-table"}>
             <thead>
                 <tr><th colSpan="2">Notes</th></tr>
             </thead>
             <tbody>
-                <tr><td><textarea onChange={props.c} className={"notes-textarea"} value={props.text}/></td></tr>
+                <tr>
+                    <td>
+                        <textarea disabled={!props.enabled} onChange={props.c} className={"notes-textarea"} value={notesText}/>
+                    </td>
+                    <td className={"notes-save-btn-cell"}>
+                        <button disabled={!props.enabled} onClick={props.s} className={"notes-save-btn"}>Save Notes</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
