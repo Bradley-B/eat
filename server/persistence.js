@@ -43,4 +43,20 @@ module.exports = class Persistence {
         object.notes = newNotes;
         storage.setItem(person, object);
     }
+
+    async updateDays(person, requestObject) {
+        let object = await this.getItem(person);
+        for(const [key, value] of Object.entries(requestObject)) {
+            if(days.includes(key) && this.isDayObjectValid(value)) {
+                object[key] = value;
+            }
+        }
+        storage.setItem(person, object);
+    }
+
+    isDayObjectValid(value) {
+        return value.hasOwnProperty("breakfast") && value.hasOwnProperty("lunch") &&
+            value.hasOwnProperty("dinner") && typeof value.breakfast === 'boolean' &&
+            typeof value.lunch === 'boolean' && typeof value.dinner === 'boolean';
+    }
 };

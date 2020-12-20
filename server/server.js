@@ -1,17 +1,13 @@
 const express = require('express');
-// const path = require('path');
+const path = require('path');
 const app = express();
 const port = 5680;
 
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 const persistence = require('./persistence');
 let db = new persistence();
-
-app.get('/', (req, res) => {
-    return res.send("hello")
-});
 
 app.get('/api/get/:person/', (req, res) => {
     db.getItem(req.params.person).then((result)=>{
@@ -23,6 +19,11 @@ app.get('/api/get/:person/', (req, res) => {
 
 app.put('/api/update/days/:person/', (req, res) => {
     //updates one or more days for :person
+    db.updateDays(req.params.person, req.body).then(()=>{
+        return res.sendStatus(204);
+    }).catch(()=>{
+        return res.sendStatus(404);
+    });
 });
 
 app.put('/api/update/notes/:person/', (req, res) => {
@@ -36,6 +37,10 @@ app.put('/api/update/notes/:person/', (req, res) => {
     }).catch(()=>{
         return res.sendStatus(404);
     });
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
 });
 
 db.init().then(()=>{
