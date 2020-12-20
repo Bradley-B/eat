@@ -10,11 +10,7 @@ function App() {
     if(username) {
         return <Week username={username}/>
     }
-    return (
-            <div className="App">
-                <Landing callback={setUsername}/>
-            </div>
-    );
+    return <Landing callback={setUsername}/>;
 
 }
 

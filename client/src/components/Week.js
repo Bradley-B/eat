@@ -3,7 +3,7 @@ import '../styles.css';
 import { Day } from "./Day";
 
 const defaults = {
-    "notes": "",
+    "notes": "loading... please do not touch anything!",
     "monday": {"breakfast": false, "lunch": false, "dinner": false},
     "tuesday": {"breakfast": false, "lunch": false, "dinner": false},
     "wednesday": {"breakfast": false, "lunch": false, "dinner": false},
@@ -22,7 +22,7 @@ export default class Week extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:5680/api/get/${this.props.username}`, {
+        fetch(`/api/get/${this.props.username}`, {
             method: 'GET'
         }).then((res)=>{
             return res.json();
@@ -31,16 +31,38 @@ export default class Week extends React.Component {
         });
     }
 
+    save(type) {
+        let objectToSave = this.state.values;
+
+        if(type === 'notes') {
+            objectToSave = {notes: this.state.values.notes};
+        } else if(type === 'days') {
+            delete objectToSave.notes;
+        } else {
+            return;
+        }
+
+        fetch(`/api/update/${type}/${this.props.username}`, {
+            method: 'PUT',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(objectToSave)
+        });
+    }
+
     handleNotesChange(e) {
         let state = this.state.values;
         state.notes = e.target.value;
-        this.setState({values: state});
+        this.setState({values: state}, ()=>{
+            this.save('notes');
+        });
     }
 
     handleCheckboxChange(day, time, isChecked) {
         let state = this.state.values;
         state[day][time] = isChecked;
-        this.setState({values: state});
+        this.setState({values: state}, ()=>{
+            this.save('days');
+        });
     }
 
     render() {
@@ -61,10 +83,10 @@ export function Notes(props) {
     return <div className={"day-container"}>
         <table className={"day-table"}>
             <thead>
-            <tr><th colSpan="2">Notes</th></tr>
+                <tr><th colSpan="2">Notes</th></tr>
             </thead>
             <tbody>
-            <tr><td><textarea onChange={props.c} className={"notes-textarea"} value={props.text}/></td></tr>
+                <tr><td><textarea onChange={props.c} className={"notes-textarea"} value={props.text}/></td></tr>
             </tbody>
         </table>
     </div>
