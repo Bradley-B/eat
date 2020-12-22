@@ -20,6 +20,7 @@ export default class Week extends React.Component {
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
         this.saveNotes = this.saveNotes.bind(this);
+        this.handleResetButton = this.handleResetButton.bind(this);
     }
 
     componentDidMount() {
@@ -81,18 +82,32 @@ export default class Week extends React.Component {
         });
     }
 
+    handleResetButton() {
+        if(window.confirm('Reset Checkboxes?')) {
+            let state = defaults;
+            delete state.notes;
+            this.setState({values: state}, ()=>{
+                this.save('days');
+            });
+        }
+    }
+
     render() {
-        return <div className={"week"}>
-            <Day c={this.handleCheckboxChange} values={this.state.values.sunday} day={"sunday"}/>
-            <Day c={this.handleCheckboxChange} values={this.state.values.monday} day={"monday"}/>
-            <Day c={this.handleCheckboxChange} values={this.state.values.tuesday} day={"tuesday"}/>
-            <Day c={this.handleCheckboxChange} values={this.state.values.wednesday} day={"wednesday"}/>
-            <Day c={this.handleCheckboxChange} values={this.state.values.thursday} day={"thursday"}/>
-            <Day c={this.handleCheckboxChange} values={this.state.values.friday} day={"friday"}/>
-            <Day c={this.handleCheckboxChange} values={this.state.values.saturday} day={"saturday"}/>
-            <Notes enabled={this.state.notesEnabled} s={this.saveNotes}
-                   c={this.handleNotesChange} text={this.state.values.notes}/>
-        </div>;
+        return <>
+            <div className={"week"}>
+                <Day c={this.handleCheckboxChange} values={this.state.values.sunday} day={"sunday"}/>
+                <Day c={this.handleCheckboxChange} values={this.state.values.monday} day={"monday"}/>
+                <Day c={this.handleCheckboxChange} values={this.state.values.tuesday} day={"tuesday"}/>
+                <Day c={this.handleCheckboxChange} values={this.state.values.wednesday} day={"wednesday"}/>
+                <Day c={this.handleCheckboxChange} values={this.state.values.thursday} day={"thursday"}/>
+                <Day c={this.handleCheckboxChange} values={this.state.values.friday} day={"friday"}/>
+                <Day c={this.handleCheckboxChange} values={this.state.values.saturday} day={"saturday"}/>
+                <Notes enabled={this.state.notesEnabled} s={this.saveNotes}
+                       c={this.handleNotesChange} text={this.state.values.notes}/>
+            </div>
+            <br/>
+            <button className={"reset-button"} onClick={this.handleResetButton}>Reset Checkboxes</button>
+        </>;
     }
 }
 

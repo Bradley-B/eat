@@ -109,12 +109,21 @@ body {
     border-radius: 10px;
 }
 
-.notes-save-btn:hover {
+.notes-save-btn:hover, .reset-button:hover {
     cursor: pointer;
     background: linear-gradient(90deg, rgba(0,0,0,0) 5%, rgb(100, 181, 181) 100%);
 }
 
-.notes-save-btn:focus {
+.notes-save-btn:focus, .reset-button:focus {
     outline: 0;
     border: 2px #6292fb solid;
+}
+
+.reset-button {
+    padding: 20px;
+    margin: 10px 10px 10px 25px;
+    background-color: transparent;
+    color: white;
+    border: 2px #64b5b5 solid;
+    border-radius: 10px;
 }
