@@ -39,17 +39,13 @@ export default class Week extends React.Component {
         });
     }
 
-    save(type) {
+    saveDays() {
         let objectToSave = this.state.values;
+        delete objectToSave.notes;
+        this.save('days', objectToSave);
+    }
 
-        if(type === 'notes') {
-            objectToSave = {notes: this.state.values.notes};
-        } else if(type === 'days') {
-            delete objectToSave.notes;
-        } else {
-            return;
-        }
-
+    save(type, objectToSave) {
         return fetch(`/api/update/${type}/${this.props.username}`, {
             method: 'PUT',
             headers: {'Content-type': 'application/json'},
@@ -68,7 +64,8 @@ export default class Week extends React.Component {
 
     saveNotes() {
         this.setState({notesEnabled: false}, ()=>{
-            this.save('notes').then(()=>{
+            let objectToSave = {notes: this.state.values.notes};
+            this.save('notes', objectToSave).then(()=>{
                 this.setState({notesEnabled: true});
             });
         });
@@ -79,7 +76,7 @@ export default class Week extends React.Component {
         let state = this.state.values;
         state[day][time] = isChecked;
         this.setState({values: state}, ()=>{
-            this.save('days');
+            this.saveDays();
         });
     }
 
@@ -88,7 +85,7 @@ export default class Week extends React.Component {
             let state = defaults;
             delete state.notes;
             this.setState({values: state}, ()=>{
-                this.save('days');
+                this.saveDays();
             });
         }
     }
