@@ -57,9 +57,10 @@ export default class Week extends React.Component {
     }
 
     handleNotesChange(e) {
-        let state = this.state.values;
-        state.notes = e.target.value;
-        this.setState({values: state});
+        this.setState((state)=>{
+            state.values.notes = e.target.value;
+            return state;
+        });
     }
 
     saveNotes() {
@@ -73,9 +74,10 @@ export default class Week extends React.Component {
     }
 
     handleCheckboxChange(day, time, isChecked) {
-        let state = this.state.values;
-        state[day][time] = isChecked;
-        this.setState({values: state}, ()=>{
+        this.setState((state) => {
+            state.values[day][time] = isChecked;
+            return state;
+        }, ()=>{
             this.saveDays();
         });
     }
