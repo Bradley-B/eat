@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNotes } from "../redux/noteSlice";
+import { fetchNotesAsync, putNotesAsync, updateNotes } from "../redux/noteSlice";
 
 export function Notes(props) {
 
-    const storeText = useSelector(state => state.notes.text);
-    const [notes, setNotes] = useState(storeText);
-
+    const error = useSelector(state => state.notes.error);
+    const loading = useSelector(state => state.notes.loading);
+    let storeText = useSelector(state => state.notes.text);
     const dispatch = useDispatch();
-    const notesText = props.enabled ? notes : "saving... please wait";
+
+    storeText = error ? "failed to save notes" : (loading ? "loading..." : storeText);
+
+    useEffect(()=>{
+        dispatch(fetchNotesAsync(props.username));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchNotesAsync]);
 
     return <div className={"day-container"}>
         <table className={"day-table"}>
@@ -18,14 +24,14 @@ export function Notes(props) {
             <tbody>
             <tr>
                 <td>
-                    <textarea disabled={!props.enabled}
-                              onChange={(e) => setNotes(e.target.value)}
+                    <textarea disabled={loading || error}
+                              onChange={(e) => dispatch(updateNotes(e.target.value))}
                               className={"notes-textarea"}
-                              value={notesText}/>
+                              value={storeText}/>
                 </td>
                 <td className={"notes-save-btn-cell"}>
-                    <button disabled={!props.enabled}
-                            onClick={() => dispatch(updateNotes(notes))}
+                    <button disabled={loading || error}
+                            onClick={() => dispatch(putNotesAsync(props.username))}
                             className={"notes-save-btn"}>Save Notes</button>
                 </td>
             </tr>

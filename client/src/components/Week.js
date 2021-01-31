@@ -8,10 +8,7 @@ import {connect} from "react-redux";
 const week = class Week extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {notesEnabled: true};
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleNotesChange = this.handleNotesChange.bind(this);
-        this.saveNotes = this.saveNotes.bind(this);
         this.handleResetButton = this.handleResetButton.bind(this);
     }
 
@@ -47,22 +44,6 @@ const week = class Week extends React.Component {
         // });
     }
 
-    handleNotesChange(e) {
-        // this.setState((state)=>{
-        //     state.values.notes = e.target.value;
-        //     return state;
-        // });
-    }
-
-    saveNotes() {
-        // this.setState({notesEnabled: false}, ()=>{
-        //     let objectToSave = {notes: this.state.values.notes};
-        //     this.save('notes', objectToSave).then(()=>{
-        //         this.setState({notesEnabled: true});
-        //     });
-        // });
-    }
-
     handleCheckboxChange(day, time, isChecked) {
         // this.setState((state) => {
         //     state.values[day][time] = isChecked;
@@ -89,7 +70,7 @@ const week = class Week extends React.Component {
                 <Day day={"thursday"}/>
                 <Day day={"friday"}/>
                 <Day day={"saturday"}/>
-                <Notes enabled={this.state.notesEnabled}/>
+                <Notes username={this.props.username}/>
             </div>
             <br/>
             <button className={"reset-button"} onClick={this.handleResetButton}>Reset Checkboxes</button>

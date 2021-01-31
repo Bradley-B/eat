@@ -16,6 +16,24 @@ app.use((req, res, next) => {
 const persistence = require('./persistence');
 let db = new persistence();
 
+app.get('/api/get/days/:person', (req, res) => {
+    db.getItem(req.params.person).then((result)=>{
+        delete result.notes;
+        return res.send(result);
+    }).catch(()=>{
+        return res.sendStatus(404);
+    });
+});
+
+app.get('/api/get/notes/:person', (req, res) => {
+    db.getItem(req.params.person).then((result)=>{
+        return res.send({notes: result.notes});
+    }).catch(()=>{
+        return res.sendStatus(404);
+    });
+});
+
+
 app.get('/api/get/:person/', (req, res) => {
     db.getItem(req.params.person).then((result)=>{
         return res.send(result);
