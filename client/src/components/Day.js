@@ -1,5 +1,7 @@
 import React from 'react';
 import '../styles.css';
+import { useDispatch, useSelector } from "react-redux";
+import { updateMeal } from '../redux/mealSlice';
 
 const capitalize = (s) => {
     return s.charAt(0).toUpperCase() + s.slice(1);
@@ -16,24 +18,24 @@ export function Day(props) {
                 </tr>
             </thead>
             <tbody>
-                <TimeRow day={props.day} callback={props.c}
-                         value={props.values.breakfast} time={"breakfast"}/>
-                <TimeRow day={props.day} callback={props.c}
-                         value={props.values.lunch} time={"lunch"}/>
-                <TimeRow day={props.day} callback={props.c}
-                         value={props.values.dinner} time={"dinner"}/>
+                <TimeRow day={props.day} time={"breakfast"}/>
+                <TimeRow day={props.day} time={"lunch"}/>
+                <TimeRow day={props.day} time={"dinner"}/>
             </tbody>
         </table>
     </div>);
 }
 
 function TimeRow(props) {
+    const isChecked = useSelector(state => state.meals[props.day][props.time]);
+    const dispatch = useDispatch();
+
     return (<tr className={"time-container"}>
         <td><label>{props.time.toUpperCase()}</label></td>
         <td className={"checkbox-container"}>
-            <input checked={props.value} type="checkbox"
+            <input checked={isChecked} type="checkbox"
                    onChange={(e)=>{
-                        props.callback(props.day, props.time, e.target.checked);
+                       dispatch(updateMeal(props.day, props.time, e.target.checked));
             }}/>
         </td>
     </tr>);
